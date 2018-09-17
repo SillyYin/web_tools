@@ -27,8 +27,13 @@ def initialize(request):
     file_name = "/Users/apple/Desktop/pa_test_tree.txt"
     with open(file_name, mode='r', encoding='utf-8') as f:
         datas = f.read()
+    data_list = datas.split('\n\n')
+    for data in data_list:
+        data.strip().replace('\t', '')
+    print(len(data_list))
+    print(data_list[0])
 
-    return_data = {'data': datas}
+    return_data = {'data': data_list}
 
     return HttpResponse(json.dumps(return_data))
 
