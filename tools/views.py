@@ -16,6 +16,7 @@ def index(request):
     """
     return render(request, 'index.html')
 
+
 @csrf_exempt
 def initialize(request):
     """
@@ -45,6 +46,7 @@ def initialize(request):
 
     return HttpResponse(json.dumps(return_data))
 
+
 @csrf_exempt
 def save(request):
     """
@@ -58,9 +60,6 @@ def save(request):
 
     parameter = request.POST['bool_list']
     bool_list = parameter[1:-1].split(',')
-
-    print(type(parameter))
-    print(bool_list)
 
     for index in range(len(bool_list)):
         if bool_list[index] == '\"true\"':
@@ -82,21 +81,27 @@ def save(request):
 
     right_file_name = "/Users/apple/Desktop/pa_test_tree_right.txt"
     false_file_name = "/Users/apple/Desktop/pa_test_tree_false.txt"
-    write_file_name = ""
+
+    right_data_list = list()
+    false_data_list = list()
+
+    for index in range(len(data_list)):
+        if index in right_list:
+            right_data_list.append(data_list[index])
+        if index in false_list:
+            false_data_list.append(data_list[index])
 
     try:
-        for index in range(len(data_list)):
-            if index in right_list:
-                write_file_name = right_file_name
-            if index in false_list:
-                write_file_name = false_file_name
-            with open(write_file_name, mode='a', encoding='utf-8') as f:
-                f.write(data_list[index] + '\n\n')
+        with open(right_file_name, mode='w', encoding='utf-8') as f:
+            for data in right_data_list:
+                f.write(data + '\n\n')
+        with open(false_file_name, mode='w', encoding='utf-8') as f:
+            for data in false_data_list:
+                f.write(data + '\n\n')
     except Exception as e:
         print("Exception: ", e)
         return_data = {'status': 'FAIL'}
-        return  HttpResponse(json.dumps(return_data))
+        return HttpResponse(json.dumps(return_data))
 
     return_data = {'status': 'SUCCESS'}
     return HttpResponse(json.dumps(return_data))
-
