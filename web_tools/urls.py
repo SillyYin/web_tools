@@ -19,5 +19,6 @@ from tools import views
 
 urlpatterns = [
     url(r'^$', views.index),
-    url(r'^initialize$', views.initialize)
+    url(r'^initialize$', views.initialize),
+    url(r'^save$', views.save)
 ]
